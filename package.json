@@ -1,0 +1,31 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "diploma movies",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DmitrySavelev/movies-explorer-api.git"
+  },
+  "author": "Dmitrii Savelev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DmitrySavelev/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/DmitrySavelev/movies-explorer-api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.4",
+    "validator": "^13.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.38.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5"
+  }
+}
