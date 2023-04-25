@@ -1,6 +1,6 @@
 const Movie = require('../models/movie-models');
 const ValidationError = require('../errors/validation-err'); // 400 некорректный запрос
-// const ForbiddenError = require('../errors/forbidden-err'); // 403
+const ForbiddenError = require('../errors/forbidden-err'); // 403
 const NotFoundError = require('../errors/not-found-err'); // 404
 
 const getMovies = (req, res, next) => { // GET /movies'
@@ -58,11 +58,11 @@ const deleteMovie = (req, res, next) => { // DELETE /movies/:movieId
     .findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Карточка с указанным movieId не найдена ^');
+        throw new NotFoundError('Фильм с указанным movieId не найден ^');
       }
-      // if (movie.owner.toString() !== req.user.movieId) {
-      //   throw new ForbiddenError('Недостаточно прав для удаления карточки ^^');
-      // }
+      if (movie.owner.toString() !== req.user._id) {
+        throw new ForbiddenError('Недостаточно прав для удаления фильма ^^');
+      }
       Movie.findByIdAndRemove(req.params.movieId)
         .then((deletedMovie) => res.send({ deletedMovie }));
     })

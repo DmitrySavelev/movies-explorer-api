@@ -4,9 +4,9 @@ const {
   getUserInfo,
   updateUserInfo,
 } = require('../controllers/users-controllers');
-// const { cardIdValidation, createCardValidation } = require('../middlewares/validation');
+const { updateUserValidation } = require('../middlewares/validation');
 
 router.get('/users/me', getUserInfo);
-router.patch('/users/me', updateUserInfo);
+router.patch('/users/me', updateUserValidation, updateUserInfo);
 
 module.exports = router;
