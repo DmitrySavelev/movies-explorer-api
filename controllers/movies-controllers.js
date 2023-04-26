@@ -46,7 +46,7 @@ const createMovie = (req, res, next) => { // POST /movies
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ValidationError('Переданы некорректные данные при создании карточки'));
+        next(new ValidationError('Переданы некорректные данные при создании фильма'));
       } else {
         next(err);
       }
@@ -68,7 +68,7 @@ const deleteMovie = (req, res, next) => { // DELETE /movies/:movieId
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new ValidationError('Переданы некорректные данные карточки ^^^'));
+        next(new ValidationError('Переданы некорректные данные фильма ^^^'));
       } else {
         next(err);
       }
