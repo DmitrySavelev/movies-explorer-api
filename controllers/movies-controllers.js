@@ -2,12 +2,13 @@ const Movie = require('../models/movie-models');
 const ValidationError = require('../errors/validation-err'); // 400 некорректный запрос
 const ForbiddenError = require('../errors/forbidden-err'); // 403
 const NotFoundError = require('../errors/not-found-err'); // 404
+const constants = require('../utils/constants');
 
 const getMovies = (req, res, next) => { // GET /movies'
   Movie
-    .find({})
+    .find({ owner: req.user._id })
     .then((movies) => {
-      res.send({ data: movies });
+      res.send(movies);
     })
     .catch(next);
 };
@@ -46,7 +47,7 @@ const createMovie = (req, res, next) => { // POST /movies
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ValidationError('Переданы некорректные данные при создании фильма'));
+        next(new ValidationError(err.message));
       } else {
         next(err);
       }
@@ -58,17 +59,18 @@ const deleteMovie = (req, res, next) => { // DELETE /movies/:movieId
     .findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Фильм с указанным movieId не найден ^');
+        throw new NotFoundError(constants.MOVIE_NOT_FOUND);
       }
       if (movie.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Недостаточно прав для удаления фильма ^^');
+        throw new ForbiddenError(constants.NO_RIGHTS);
       }
       Movie.findByIdAndRemove(req.params.movieId)
-        .then((deletedMovie) => res.send({ deletedMovie }));
+        .then((deletedMovie) => res.send({ deletedMovie }))
+        .catch(next);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new ValidationError('Переданы некорректные данные фильма ^^^'));
+        next(new ValidationError(err.message));
       } else {
         next(err);
       }

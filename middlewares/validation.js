@@ -3,7 +3,7 @@ const { regex } = require('../utils/constants');
 
 const registerValidation = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
@@ -18,8 +18,8 @@ const loginValidation = celebrate({
 
 const updateUserValidation = celebrate({
   body: Joi.object().keys({
+    name: Joi.string().required(),
     email: Joi.string().required().email(),
-    password: Joi.string().required(),
   }),
 });
 
@@ -33,7 +33,7 @@ const createMovieValidation = celebrate({
     image: Joi.string().required().pattern(regex),
     trailerLink: Joi.string().required().pattern(regex),
     thumbnail: Joi.string().required().pattern(regex),
-    movieId: Joi.string().required().length(24).hex(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),

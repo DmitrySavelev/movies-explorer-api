@@ -52,7 +52,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
-    type: mongoose.Schema.ObjectId,
+    type: Number,
     required: true,
   },
   nameRU: {

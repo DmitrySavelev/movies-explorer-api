@@ -10,15 +10,12 @@ const cors = require('cors');
 const corsOptions = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes/index');
-const userRoutes = require('./routes/users-routes');
-const movieRoutes = require('./routes/movie-routes');
-const { auth } = require('./middlewares/auth');
+const config = require('./utils/config');
+const constants = require('./utils/constants');
 
 const { errorHandler } = require('./middlewares/errorHandler');
 const NotFoundError = require('./errors/not-found-err');
 const limiterOptions = require('./middlewares/limiter');
-
-const { PORT = 3000 } = process.env;
 
 const limiter = rateLimit(limiterOptions);
 
@@ -28,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://0.0.0.0:27017/moviesdb', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(config.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB Connected >>>>>>>>>'))
   .catch((err) => console.log(err));
 
@@ -45,13 +42,8 @@ app.get('/crash-test', () => {
 
 app.use(routes);
 
-app.use(auth);
-
-app.use(userRoutes);
-app.use(movieRoutes);
-
 app.use((req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
+  next(new NotFoundError(constants.PAGE_NOT_FOUND));
 });
 
 app.use(errorLogger); // подключаем логгер ошибок
@@ -59,4 +51,4 @@ app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
 app.use(errorHandler); // централизованный обработчик
 
-app.listen(PORT);
+app.listen(config.PORT);
