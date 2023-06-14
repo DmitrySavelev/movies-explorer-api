@@ -1,9 +1,9 @@
 const corsOptions = {
   origin: [
-    // 'http://mesto.savelev.nomoredomains.monster',
-    // 'https://mesto.savelev.nomoredomains.monster',
-    // 'http://api.mesto.savelev.nomoredomains.monster',
-    // 'https://api.mesto.savelev.nomoredomains.monster',
+    'http://movies.savelev.nomoredomains.rocks/',
+    'https://movies.savelev.nomoredomains.rocks/',
+    'http://movies.savelev.nomoredomains.monster/',
+    'https://movies.savelev.nomoredomains.monster/',
     'http://localhost:3000',
     'http://localhost:3001',
     'https://localhost:3000',
